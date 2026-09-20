@@ -1,12 +1,11 @@
 def fibonacci_generator():
     a = 0
     b = 1
-    while(b>0):
-        newb = a + b
-        res = newb + b
+    while True:
+        yield a
+        res = a + b
         a=b
-        b=newb
-        yield res
+        b=res
 
 gen = fibonacci_generator()
 my_numbers = []
