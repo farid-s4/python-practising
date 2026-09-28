@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Confirm feedback
+{% endblock %}
+
+{% block content %}
+	<p>
+    <strong>Name:</strong>
+    {{ feedback.name }}
+</p>
+
+<p>
+    <strong>Email:</strong>
+    {{ feedback.email }}
+</p>
+
+<p>
+    <strong>Message:</strong>
+    {{ feedback.message }}
+</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm</button>
+</form>
+
+<a href="{% url 'notes_feedback' %}">
+    <button type="button">Back</button>
+</a>
+{% endblock %}

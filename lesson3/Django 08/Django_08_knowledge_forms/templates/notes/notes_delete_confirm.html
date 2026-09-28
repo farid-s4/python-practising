@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Заметка удалена
+{% endblock %}
+
+{% block content %}
+
+<h1>Заметка удалена!</h1>
+
+<p class="page-text">
+    Заметка «{{ note.title }}» успешно удалена.
+</p>
+
+<div class="actions">
+    <a class="action-link" href="{% url 'notes_list' %}">
+        Вернуться к списку
+    </a>
+</div>
+
+{% endblock %}
