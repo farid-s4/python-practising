@@ -1,0 +1,37 @@
+{% extends "events/base.html" %}
+
+{% block title %}
+    Create Event
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Create Event</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button
+            type="submit"
+            class="button button-success"
+        >
+            Create Event
+        </button>
+
+        <a
+            href="{% url 'events' %}"
+            class="button button-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

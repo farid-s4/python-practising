@@ -1,0 +1,89 @@
+{% extends "events/base.html" %}
+
+{% block title %}
+    {{ data.title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>
+        {{ data.title }}
+    </h1>
+
+    <div class="info">
+        <strong>Name:</strong>
+        {{ data.name }}
+    </div>
+
+    <div class="info">
+        <strong>Category:</strong>
+        {{ data.category }}
+    </div>
+
+    <div class="info">
+        <strong>Location:</strong>
+        {{ data.location }}
+    </div>
+
+    <div class="info">
+        <strong>Status:</strong>
+
+        {% if data.status == "Active" %}
+            <span class="status-active">
+                {{ data.status }}
+            </span>
+        {% else %}
+            <span class="status-closed">
+                {{ data.status }}
+            </span>
+        {% endif %}
+    </div>
+
+    <hr>
+
+    <h3>Description</h3>
+
+    <p>
+        {{ data.description }}
+    </p>
+
+    <br>
+
+    {% if data.status == "Active" %}
+
+        <form
+            method="POST"
+            action="{% url 'event_close' data.id %}"
+            style="display: inline;"
+        >
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="button button-success"
+            >
+                Close Event
+            </button>
+        </form>
+
+    {% endif %}
+
+    <a
+        href="{% url 'event_delete' data.id %}"
+        class="button button-danger"
+    >
+        Delete
+    </a>
+
+    <a
+        href="{% url 'events' %}"
+        class="button button-secondary"
+    >
+        Back
+    </a>
+
+</div>
+
+{% endblock %}

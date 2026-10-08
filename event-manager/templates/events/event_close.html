@@ -1,0 +1,40 @@
+{% extends "events/base.html" %}
+
+{% block title %}
+    Close Event
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Close Event</h1>
+
+    <p>
+        Are you sure you want to close
+        <strong>{{ data.title }}</strong>?
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="button button-success"
+        >
+            Yes, Close
+        </button>
+
+        <a
+            href="{% url 'event_detail' data.id %}"
+            class="button button-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

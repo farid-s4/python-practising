@@ -1,0 +1,180 @@
+{% extends "events/base.html" %}
+
+{% block title %}
+    Events
+{% endblock %}
+
+{% block content %}
+
+<h1>Events</h1>
+
+<div class="card">
+    <div class="info">
+        <strong>Total events:</strong>
+        {{ total_events }}
+    </div>
+    <div class="info">
+        <strong>Active events:</strong>
+        {{ total_active_events }}
+    </div>
+    <div class="info">
+        <strong>Closed events:</strong>
+        {{ total_close_events }}
+    </div>
+</div>
+
+<div class="card">
+    <form method="GET">
+        <div class="info">
+
+            <label>
+                <input class="form-control" type="text" name="search" placeholder="Search events...">
+            </label>
+
+            <label for="status">
+                <strong>Status:</strong>
+            </label>
+            <select name="status" id="status" class="form-control">
+
+                <option value="all">
+                    All statuses
+                </option>
+
+                <option value="Active"
+                    {% if status == "Active" %}
+                        selected
+                    {% endif %}
+                >
+                    Active
+                </option>
+                <option value="Closed"
+                    {% if status == "Closed" %}
+                        selected
+                    {% endif %}
+                >
+                    Closed
+                </option>
+
+            </select>
+            <label for="category">
+                <strong>Category:</strong>
+            </label>
+            <select name="category" id="category">
+
+                <option value="all">
+                    All categories
+                </option>
+
+                <option value="Education"
+                    {% if category == "Education" %}
+                        selected
+                    {% endif %}>
+                Education
+                </option>
+                <option value="Technology"
+                    {% if category == "Technology" %}
+                        selected
+                    {% endif %}>
+                Technology
+                </option>
+                <option value="Sport"
+                    {% if category == "Sport" %}
+                        selected
+                    {% endif %}>
+                Sport
+                </option>
+                <option value="Entertainment"
+                    {% if category == "Entertainment" %}
+                        selected
+                    {% endif %}>
+                    Entertainment
+                </option>
+                <option value="Other"
+                    {% if category == "Other" %}
+                            selected
+                    {% endif %}>
+                    Others
+                </option>
+
+            </select>
+        </div>
+        <button
+            type="submit"
+            class="button"
+        >
+            Search and filter
+        </button>
+        <a
+            href="{% url 'events' %}"
+            class="button button-secondary"
+        >
+            Reset
+        </a>
+    </form>
+</div>
+
+
+{% if data %}
+
+    {% for event in data %}
+
+        <div class="card">
+
+            <h2>
+                {{ event.title }}
+            </h2>
+            <div class="info">
+                <strong>Name:</strong>
+                {{ event.name }}
+            </div>
+            <div class="info">
+                <strong>Category:</strong>
+                {{ event.category }}
+            </div>
+
+            <div class="info">
+                <strong>Location:</strong>
+                {{ event.location }}
+            </div>
+            <div class="info">
+                <strong>Status:</strong>
+                {% if event.status == "Active" %}
+                    <span class="status-active">
+                        {{ event.status }}
+                    </span>
+                {% else %}
+
+                    <span class="status-closed">
+                        {{ event.status }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <br>
+            <a
+                href="{% url 'event_detail' event.id %}"
+                class="button">
+                Details
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+    <div class="card">
+        <p>
+            No events found.
+        </p>
+        <a
+            href="{% url 'event_create' %}"
+            class="button button-success"
+        >Create first event
+        </a>
+    </div>
+
+{% endif %}
+
+{% endblock %}

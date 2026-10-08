@@ -1,0 +1,40 @@
+{% extends "events/base.html" %}
+
+{% block title %}
+    Delete Event
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Delete Event</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ data.title }}</strong>?
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="button button-danger"
+        >
+            Yes, delete
+        </button>
+
+        <a
+            href="{% url 'event_detail' data.id %}"
+            class="button button-secondary"
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}
