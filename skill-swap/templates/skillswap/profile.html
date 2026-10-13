@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ profile.user.username }} — Profile{% endblock %}
+
+{% block content %}
+    <section class="profile-card">
+        {% if profile.avatar %}
+            <img
+                src="{{ profile.avatar.url }}"
+                alt="{{ profile.user.username }}'s avatar"
+                width="160"
+            >
+        {% endif %}
+
+        <h1>{{ profile.user.get_full_name|default:profile.user.username }}</h1>
+        <p>@{{ profile.user.username }}</p>
+        <p>{{ profile.short_bio|linebreaks }}</p>
+    </section>
+
+    <section>
+        <h2>About</h2>
+        <p>Rating: {{ profile.rating|floatformat:1 }}/10</p>
+        <p>Skill proposals: {{ profile.proposals_count }}</p>
+        <p>Completed lessons: {{ profile.completed_lessons_count }}</p>
+    </section>
+
+    <section>
+        <h2>Skill proposals</h2>
+        {% for proposal in profile.user.skill_proposals.all %}
+            <article>
+                <h3>
+                    <a href="{% url 'proposal_detail' proposal.id %}">
+                        {{ proposal.name }}
+                    </a>
+                </h3>
+                <p>{{ proposal.description|truncatewords:30 }}</p>
+                <p>{{ proposal.category.name }} · {{ proposal.get_status_display }}</p>
+            </article>
+        {% empty %}
+            <p>No skill proposals yet.</p>
+        {% endfor %}
+    </section>
+
+    <section>
+        <h2>Reviews</h2>
+        {% for review in profile.reviews.all %}
+            <article>
+                <p><strong>{{ review.reviewer.username }}</strong></p>
+                <p>Rating: {{ review.rating|floatformat:1 }}/5</p>
+                <p>{{ review.review|linebreaks }}</p>
+                <small>{{ review.created_at|date:"d.m.Y" }}</small>
+            </article>
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </section>
+{% endblock %}

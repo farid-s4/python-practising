@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h1>Expense Tracker</h1>
+
+    <p>Добро пожаловать!</p>
+    <p>Приложение для управления расходами.</p>
+
+    <a href="{% url 'accounts:register' %}">Регистрация</a>
+    <br>
+    <a href="{% url 'accounts:login' %}">Войти</a>
+{% endblock %}

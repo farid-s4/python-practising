@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Create Skill Proposal</h1>
+
+<p>Your proposal will be reviewed by an administrator before publication.</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Submit Proposal</button>
+</form>
+
+<a href="{% url 'home' %}">Back to Home</a>
+{% endblock %}

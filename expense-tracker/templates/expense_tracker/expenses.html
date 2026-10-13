@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Expenses
+{% endblock %}
+
+{% block content %}
+
+{% with total=expenses|length %}
+    <h1>Список расходов — {{ total }} шт.</h1>
+{% endwith %}
+
+<ul>
+    {% for expense in expenses %}
+        <li>
+            <h3>{{ expense.title }}</h3>
+            <p>
+                <strong>Сумма:</strong> {{ expense.amount }}
+            </p>
+            <p>
+                <strong>Категория:</strong> {{ expense.category }}
+            </p>
+            <p>
+                <strong>Дата:</strong> {{ expense.created_at|date:"d.m.Y H:i" }}
+            </p>
+            {% if expense.description %}
+                <p>
+                    <strong>Описание:</strong> {{ expense.description }}
+                </p>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="empty-message">
+            Список расходов пуст.
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
