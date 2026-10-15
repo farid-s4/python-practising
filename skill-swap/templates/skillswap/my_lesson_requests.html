@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Запросы на занятия</h1>
+
+{% for lesson_request in lesson_requests %}
+    <div>
+        <h3>
+            <a href="{% url 'proposal_detail' lesson_request.proposal.id %}">
+                {{ lesson_request.proposal.name }}
+            </a>
+        </h3>
+
+        {% if lesson_request.proposal.author == user %}
+            <p>От кого: {{ lesson_request.student.username }}</p>
+        {% else %}
+            <p>Наставник: {{ lesson_request.proposal.author.username }}</p>
+        {% endif %}
+        <p>Категория: {{ lesson_request.proposal.category.name }}</p>
+        <p>Статус: {{ lesson_request.get_status_display }}</p>
+        <p>Создано: {{ lesson_request.created_at|date:"d.m.Y H:i" }}</p>
+        {% if lesson_request.student == user and lesson_request.status == 'completed' %}
+            {% if not lesson_request.review %}
+                <a href="{% url 'review_create' lesson_request.id %}">Оценить занятие</a>
+            {% else %}
+                <p>Ваша оценка: {{ lesson_request.review.rating }}/5</p>
+            {% endif %}
+        {% endif %}
+        {% if lesson_request.proposal.author == user %}
+            <form method="post" action="{% url 'lesson_request_status' lesson_request.id %}">
+                {% csrf_token %}
+                <select name="status">
+                    {% for value, label in status_choices %}
+                        <option value="{{ value }}" {% if value == lesson_request.status %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Изменить статус</button>
+            </form>
+        {% endif %}
+    </div>
+    <hr>
+{% empty %}
+    <p>У вас пока нет запросов на занятия.</p>
+{% endfor %}
+
+{% endblock %}

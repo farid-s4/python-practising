@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Создать предложение навыка</h1>
+
+<p>Перед публикацией предложение проверит администратор.</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Отправить предложение</button>
+</form>
+
+<a href="{% url 'home' %}">Вернуться к предложениям</a>
+{% endblock %}

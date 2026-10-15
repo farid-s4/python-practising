@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Изменить предложение навыка</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Сохранить изменения</button>
+</form>
+
+<a href="{% url 'proposal_detail' proposal_id=form.instance.id %}">
+    Отмена
+</a>
+{% endblock %}
+```

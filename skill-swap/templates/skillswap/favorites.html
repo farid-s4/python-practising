@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Избранное{% endblock %}
+
+{% block content %}
+    <h1>Избранные предложения</h1>
+    {% for favorite_item in favorite %}
+        <article>
+            <h2><a href="{% url 'proposal_detail' favorite_item.proposal.id %}">{{ favorite_item.proposal.name }}</a>
+            </h2>
+            <p>{{ favorite_item.proposal.description|truncatewords:30 }}</p>
+            <p>{{ favorite_item.proposal.category.name }} · {{ favorite_item.proposal.author.username }}
+            </p>
+            <form method="post" action="{% url 'delete_favorite' favorite_item.id %}">
+                {% csrf_token %}
+                <button type="submit">Убрать из избранного</button>
+            </form>
+        </article>
+    {% empty %}
+        <p>В избранном пока нет предложений.</p>
+    {% endfor %}
+{% endblock %}

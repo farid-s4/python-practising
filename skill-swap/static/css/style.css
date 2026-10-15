@@ -1,0 +1,269 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #243047;
+    background: #f5f7fb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    line-height: 1.6;
+}
+
+a {
+    color: #3157c8;
+}
+
+a:hover {
+    color: #203c94;
+}
+
+.site-header {
+    background: #fff;
+    border-bottom: 1px solid #e2e7f0;
+}
+
+.site-header nav {
+    max-width: 1000px;
+    min-height: 64px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.site-header nav > span {
+    margin-left: auto;
+    color: #667085;
+}
+
+.site-header nav form {
+    margin: 0;
+}
+
+.page-container {
+    width: min(100% - 32px, 900px);
+    margin: 36px auto;
+    padding: 28px;
+    background: #fff;
+    border: 1px solid #e2e7f0;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgb(28 44 78 / 5%);
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.25;
+    color: #17233b;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: clamp(1.6rem, 4vw, 2rem);
+}
+
+article,
+.page-container > div:not(.form-error) {
+    margin: 16px 0;
+    padding: 18px;
+    border: 1px solid #e5e9f1;
+    border-radius: 8px;
+    background: #fbfcfe;
+}
+
+article h2,
+.page-container > div h3 {
+    margin-top: 0;
+}
+
+.home-filters {
+    margin: 24px 0;
+    padding: 20px;
+    border: 1px solid #e2e7f0;
+    border-radius: 8px;
+    background: #f8f9fc;
+}
+
+.search-form {
+    margin: 24px 0 16px;
+}
+
+.search-form > label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.search-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-controls input {
+    flex: 1 1 260px;
+}
+
+.filter-heading,
+.filter-options {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-heading {
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.filter-heading h2 {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.filter-group + .filter-group {
+    margin-top: 16px;
+}
+
+.filter-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #667085;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.filter-button,
+.filter-link {
+    padding: 7px 12px;
+    border: 1px solid #cbd3e1;
+    border-radius: 999px;
+    background: #fff;
+    color: #344054;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.filter-select {
+    width: auto;
+    min-width: 180px;
+    padding: 7px 12px;
+    border-radius: 999px;
+}
+
+.filter-button:hover,
+.filter-link:hover,
+.filter-button.is-active,
+.filter-link.is-active {
+    border-color: #3157c8;
+    background: #3157c8;
+    color: #fff;
+}
+
+.filter-reset {
+    font-size: .9rem;
+}
+
+button,
+.action-link {
+    display: inline-block;
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 6px;
+    background: #3157c8;
+    color: #fff;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.action-link:hover {
+    background: #203c94;
+    color: #fff;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    max-width: 520px;
+    padding: 9px 10px;
+    border: 1px solid #cbd3e1;
+    border-radius: 5px;
+    background: #fff;
+    color: inherit;
+    font: inherit;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+label {
+    font-weight: 600;
+}
+
+form p {
+    margin: 0 0 16px;
+}
+
+.helptext {
+    display: block;
+    color: #667085;
+    font-size: .9rem;
+}
+
+.errorlist,
+.form-error {
+    color: #a12632;
+}
+
+.form-error {
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: #fff0f0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #e5e9f1;
+    margin: 22px 0;
+}
+
+@media (max-width: 560px) {
+    .page-container {
+        width: min(100% - 20px, 900px);
+        margin: 16px auto;
+        padding: 18px;
+    }
+
+    .site-header nav {
+        gap: 10px 14px;
+    }
+
+    .site-header nav > span {
+        margin-left: 0;
+    }
+}

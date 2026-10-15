@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if request.resolver_match.url_name == 'my_skills' %}
+        Мои предложения
+    {% else %}
+        Обзор предложений
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if request.resolver_match.url_name == 'my_skills' %}
+        <h1>Мои предложения</h1>
+        <p>Здесь собраны созданные вами предложения навыков.</p>
+    {% else %}
+        <h1>Обзор предложений</h1>
+        <p>Просматривайте опубликованные предложения и находите новые навыки.</p>
+    {% endif %}
+
+    {% if request.resolver_match.url_name == 'home' %}
+        <form method="get" action="{% url 'home' %}" class="search-form">
+            <label for="proposal-search">Поиск по названию</label>
+            <div class="search-controls">
+                <input
+                    type="search"
+                    name="q"
+                    id="proposal-search"
+                    value="{{ request.GET.q }}"
+                    placeholder="Введите название предложения"
+                >
+                <button type="submit">Найти</button>
+            </div>
+        </form>
+
+        <form method="get" action="{% url 'home' %}" class="home-filters">
+            <div class="filter-heading">
+                <h2>Фильтры предложений</h2>
+                <a class="filter-reset" href="{% url 'home' %}">Сбросить</a>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">Сортировка и популярность</span>
+                <div class="filter-options">
+                    <button
+                        class="filter-button{% if request.GET.explore %} is-active{% endif %}"
+                        type="submit"
+                        name="explore"
+                        value="1"
+                    >Новые сначала</button>
+                    <button
+                        class="filter-button{% if request.GET.popular %} is-active{% endif %}"
+                        type="submit"
+                        name="popular"
+                        value="1"
+                    >Рейтинг от 4</button>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">Категория</span>
+                <div class="filter-options">
+                    <a class="filter-link{% if request.GET.category == 'programming' %} is-active{% endif %}" href="?category=programming">Программирование</a>
+                    <a class="filter-link{% if request.GET.category == 'design' %} is-active{% endif %}" href="?category=design">Дизайн</a>
+                    <a class="filter-link{% if request.GET.category == 'languages' %} is-active{% endif %}" href="?category=languages">Языки</a>
+                    <a class="filter-link{% if request.GET.category == 'marketing' %} is-active{% endif %}" href="?category=marketing">Маркетинг</a>
+                    <a class="filter-link{% if request.GET.category == 'music' %} is-active{% endif %}" href="?category=music">Музыка</a>
+                    <a class="filter-link{% if request.GET.category == 'photography' %} is-active{% endif %}" href="?category=photography">Фотография</a>
+                    <a class="filter-link{% if request.GET.category == 'business' %} is-active{% endif %}" href="?category=business">Бизнес</a>
+                    <a class="filter-link{% if request.GET.category == 'mathematics' %} is-active{% endif %}" href="?category=mathematics">Математика</a>
+                    <a class="filter-link{% if request.GET.category == 'other' %} is-active{% endif %}" href="?category=other">Другое</a>
+                </div>
+            </div>
+        <div class="filter-group">
+                <span class="filter-label">Уровни</span>
+                <div class="filter-options">
+                    <a class="filter-link{% if request.GET.level == 'beginner' %} is-active{% endif %}" href="?level=beginner">Новичок</a>
+                    <a class="filter-link{% if request.GET.level == 'intermediate' %} is-active{% endif %}" href="?level=intermediate">Опытный</a>
+                    <a class="filter-link{% if request.GET.level == 'advanced' %} is-active{% endif %}" href="?level=advanced">Эксперт</a>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">Формат занятия</span>
+                <div class="filter-options">
+                    <a class="filter-link{% if request.GET.online == 'online' %} is-active{% endif %}" href="?online=online">Онлайн</a>
+                    <a class="filter-link{% if request.GET.online == 'offline' %} is-active{% endif %}" href="?online=offline">Очно</a>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+    {% if user.is_authenticated and request.resolver_match.url_name != 'my_skills' %}
+        <p>
+            <a class="action-link" href="{% url 'proposal_create' %}">
+                Создать предложение
+            </a>
+        </p>
+    {% endif %}
+
+    <section class="proposal-list">
+        {% for proposal in proposals %}
+            <article>
+                <h2>
+                    <a href="{% url 'proposal_detail' proposal.id %}">
+                        {{ proposal.name }}
+                    </a>
+                </h2>
+                <p>{{ proposal.description|truncatewords:35 }}</p>
+                <p>
+                    <strong>Категория:</strong> {{ proposal.category.name }}
+                    <span>·</span>
+                    <strong>Наставник:</strong> {{ proposal.author.username }}
+                </p>
+                <p>
+                    <strong>Рейтинг:</strong> {{ proposal.rating|floatformat:1 }}/5
+                    <span>·</span>
+                    <strong>Добавлено:</strong> {{ proposal.created_at|date:"d.m.Y" }}
+                </p>
+                {% if request.resolver_match.url_name == 'my_skills' %}
+                    <p><strong>Статус:</strong> {{ proposal.get_status_display }}</p>
+                {% endif %}
+            </article>
+        {% empty %}
+            {% if request.resolver_match.url_name == 'my_skills' %}
+                <p>Вы ещё не создали ни одного предложения.</p>
+                <a class="action-link" href="{% url 'proposal_create' %}">Создать первое предложение</a>
+            {% else %}
+                <p>Пока нет опубликованных предложений. Загляните позже.</p>
+            {% endif %}
+        {% endfor %}
+    </section>
+{% endblock %}
