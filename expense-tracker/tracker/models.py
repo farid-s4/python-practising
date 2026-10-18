@@ -26,4 +26,4 @@ class Expense(models.Model):
     class Meta:
         verbose_name = "Expense"
         verbose_name_plural = 'Expenses'
-# Create your models here.
+

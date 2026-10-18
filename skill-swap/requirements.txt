@@ -1,3 +1,4 @@
-Pillow==12.3.0
-
-django
+Django
+cloudinary
+python-dotenv
+Pillow

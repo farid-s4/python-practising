@@ -9,6 +9,12 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        
         <button type="submit">Login</button>
     </form>
+    <a href="{% url 'accounts:register' %}"
+    >
+        Если нет аккаунта зарегистрируйтесь
+    </a>
+    <h2>Авторизуйтесь что бы получить доступ к приложению expense-tracker.</h2>
 {% endblock %}

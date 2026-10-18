@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <section>
+        <h1>{{ expense.name }}</h1>
+        <p>
+            <strong>Сумма:</strong>
+            {{ expense.amount }}
+        </p>
+        <p>
+            <strong>Категория:</strong>
+            {% if expense.category %}
+                {{ expense.category }}
+            {% else %}
+                Не указана
+            {% endif %}
+        </p>
+        <p>
+            <strong>Способ оплаты:</strong>
+            {{ expense.payment_method }}
+        </p>
+        <p>
+            <strong>Дата расхода:</strong>
+            {% if expense.payment_date %}
+                {{ expense.payment_date|date:"d.m.Y" }}
+            {% else %}
+                Не указана
+            {% endif %}
+        </p>
+        <p>
+            <strong>Комментарий:</strong>
+            {% if expense.comment %}
+                {{ expense.comment }}
+            {% else %}
+                Нет комментария
+            {% endif %}
+        </p>
+        <p>
+            <strong>Дата создания:</strong>
+            {{ expense.created_at|date:"d.m.Y H:i" }}
+        </p>
+        <p>
+            <strong>Владелец:</strong>
+            {{ expense.author.username }}
+        </p>
+        <a href="{% url 'tracker:expenses' %}">
+            Вернуться к расходам
+        </a>
+        <a href="{% url 'tracker:index' %}">
+            На главную
+        </a>
+    </section>
+{% endblock %}

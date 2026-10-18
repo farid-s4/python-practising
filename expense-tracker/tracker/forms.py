@@ -6,17 +6,62 @@
 import datetime
 
 from django import forms
-class TrackerForm(forms.Form):
-    name = forms.CharField(
-        label='Name',
-        max_length=100,
-        min_length=3,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+from django.forms import ModelForm, DateInput, NumberInput
+
+from tracker.models import Expense
+
+
+class ExpenseFilterForm(forms.Form):
+    search = forms.CharField(
+        label='Поиск по названию', required=False,
+        widget=forms.TextInput(attrs={'placeholder': 'Название расхода'}),
     )
+    category = forms.CharField(
+        label='Категория', required=False,
+        widget=forms.TextInput(attrs={'placeholder': 'Введите категорию'}),
+    )
+    payment_method = forms.ChoiceField(label='Способ оплаты', required=False)
+    start_date = forms.DateField(
+        label='Дата с', required=False, widget=DateInput(attrs={'type': 'date'}),
+    )
+    end_date = forms.DateField(
+        label='Дата по', required=False, widget=DateInput(attrs={'type': 'date'}),
+    )
+
+    def __init__(self, *args, payment_methods=(), **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['payment_method'].choices = [('', 'Все способы')] + [
+            (value, value) for value in payment_methods
+        ]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+        if start_date and end_date and start_date > end_date:
+            self.add_error('end_date', 'Конечная дата не может быть раньше начальной.')
+        return cleaned_data
+
+
+class ExpenseForm(ModelForm):
+    class Meta:
+        model = Expense
+        fields = [
+            'name',
+            'amount',
+            'payment_method',
+            'comment',
+            'category',
+            'payment_date',
+        ]
+        labels = {
+            'category': 'Категория',
+        }
+        widgets = {
+            'created_at': DateInput(attrs={'type': 'date'}),
+            'amount': NumberInput(attrs={'type': 'number'}),
+            'payment_date': DateInput(attrs={'type': 'date'}),
+        }
     def clean_name(self):
         name = self.cleaned_data['name'].strip()
         if len(name) < 3:
